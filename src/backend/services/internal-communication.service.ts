@@ -11,6 +11,7 @@ export class InternalCommunicationService {
   listenToContentScriptConnection(): void {
     this.chromeRuntime.onConnect.addListener((port: any) => {
       port.onMessage.addListener((message: any) => {
+        console.log("MESSAGE: " + message);
         this.routeMessage(port, message);
       });
     });
