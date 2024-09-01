@@ -86,6 +86,9 @@
       "run_at": "document_start",
       "js": [
         "content-script.js"
+      ],
+      "css": [
+        "content-script.css"
       ]
     }
   ]

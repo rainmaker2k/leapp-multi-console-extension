@@ -1,5 +1,7 @@
 import { initProviders } from "./init-providers";
 
+require("./content-script.css");
+
 const providers = initProviders();
 providers.extractSessionIdService.listen();
 
@@ -18,29 +20,37 @@ providers.extractSessionIdService.listen();
       console.log("CurrentSessionId " + currentSessionIndex);
 
       const sessionData = sessionList[Number(currentSessionIndex)];
-      const sessionName = sessionData.data.sessionName;
+      const { sessionRole, sessionName } = sessionData.data;
+
+      let updateTimeOut = null;
 
       function updateDiv() {
-        const navigationDiv = document.querySelector("body");
-        if (navigationDiv) {
-          const leftContentDiv = document.createElement("div");
+        const divElement = document.querySelector("#awsc-navigation-container");
+        if (divElement) {
+          const barDiv = document.createElement("div");
+          barDiv.className = "bar";
+
           const accountTextElement = document.createTextNode("");
           accountTextElement.textContent = sessionName;
 
-          leftContentDiv.appendChild(accountTextElement);
-          leftContentDiv.classList.add("left-content");
-          leftContentDiv.style["width"] = "300px"; //blaDiv.style = "width: 300px; height: 300px; background-color: blue; position: fixed; top: 0; left: 0; z-index: 2000"
-          leftContentDiv.style["height"] = "300px";
-          leftContentDiv.style["background-color"] = "blue";
-          leftContentDiv.style["position"] = "fixed";
-          leftContentDiv.style["top"] = "0";
-          leftContentDiv.style["left"] = "0";
-          leftContentDiv.style["z-index"] = "2000";
+          const roleTextElement = document.createTextNode("");
+          roleTextElement.textContent = sessionRole;
 
-          navigationDiv.prepend(leftContentDiv);
+          const leftContentDiv = document.createElement("div");
+          leftContentDiv.appendChild(accountTextElement);
+          leftContentDiv.appendChild(roleTextElement);
+          barDiv.appendChild(leftContentDiv);
+
+          leftContentDiv.classList.add("left-content");
+
+          //divElement.prepend(leftContentDiv);
+          divElement.parentNode.insertBefore(barDiv, divElement);
+
+          clearTimeout(updateTimeOut);
         }
       }
-      setTimeout(updateDiv, 2000);
+
+      updateTimeOut = setTimeout(updateDiv, 2000);
     });
   });
 })();
