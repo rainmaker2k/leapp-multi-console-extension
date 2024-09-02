@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans%7CRoboto:400,500,700&display=swap");
+
 .bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #332f36;
+    /* background-color: #332f36; */
     padding: 2px;
     font-family: "Open Sans", sans-serif;
 }
@@ -10,7 +12,8 @@
 .left-content {
     display: inline-block;
     font-size: 16px;
-    color: #cecece
+    
+    /* margin-left: 10px; */
     /* width: 300px;
     height: 300px;
     background-color: blue;
@@ -18,6 +21,11 @@
     top: 0;
     left: 0;
     z-index: 2000 */
+}
+
+.account-name, .role-name, .region-name {
+    display: inline-block;
+    margin-left: 10px
 }
 
 .awsc-pad-top-below-h-imp.awsc-pad-bot-above-f-imp {
