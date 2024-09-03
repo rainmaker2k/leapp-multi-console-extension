@@ -17,7 +17,8 @@ function setBarColors(barDiv, sessionName) {
     barDiv.style.color = "#fff";
   } else {
     barDiv.style.backgroundColor = "#378137";
-    barDiv.style.color = "#dadada";
+    //barDiv.style.color = "#dadada";
+    barDiv.style.color = "#fff";
   }
 }
 

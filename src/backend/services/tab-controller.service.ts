@@ -45,7 +45,7 @@ export class TabControllerService {
 
   private openSessionTab(sessionId: number, leappPayload: LeappSessionInfo) {
     if (this.state.isChrome) {
-      this.newChromeSessionTab(leappPayload.url);
+      this.newChromeSessionTab(leappPayload.url, `${leappPayload.sessionName} (${leappPayload.sessionRole})`);
     } else {
       this.newFirefoxSessionTab(leappPayload.url, `${leappPayload.sessionName} (${leappPayload.sessionRole})`, sessionId).then(() => {});
     }
@@ -62,10 +62,22 @@ export class TabControllerService {
     this.chromeNamespace.tabs.update(tabId, { active: true }, (_) => {});
   }
 
-  private newChromeSessionTab(url: string) {
-    this.chromeNamespace.tabs.create({
-      url,
-    });
+  private newChromeSessionTab(url: string, groupName: string) {
+    this.chromeNamespace.tabs.create(
+      {
+        url,
+      },
+      (tab) => {
+        this.chromeNamespace.tabs.group(
+          {
+            tabIds: tab.id,
+          },
+          (groupId) => {
+            this.chromeNamespace.tabGroups.update(groupId, { title: groupName });
+          }
+        );
+      }
+    );
   }
 
   private async newFirefoxSessionTab(url: string, containerName: string, sessionId: number) {
